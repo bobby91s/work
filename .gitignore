@@ -1,0 +1,18 @@
+coins = {
+    'penny': 2.5,
+    'nickle': 2.5,
+    'dime': 2.268,
+    'quarter': 5.67
+}
+wraps = {
+    'red': 50 * coins['penny'],
+    'blue': 40 * coins['nickle'],
+    'green': 50 * coins['dime'],
+    'orange': 40 * coins['quarter']
+}
+
+def wraps_needed(**kw):
+    for color, weight in kw.items():
+        result = ((float(raw_input("weight: ")) * coins[weight]) / wraps[color])
+        print wraps_needed
+        
