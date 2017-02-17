@@ -1,18 +1,22 @@
-coins = {
-    'penny': 2.5,
-    'nickle': 2.5,
-    'dime': 2.268,
-    'quarter': 5.67
-}
-wraps = {
-    'red': 50 * coins['penny'],
-    'blue': 40 * coins['nickle'],
-    'green': 50 * coins['dime'],
-    'orange': 40 * coins['quarter']
-}
+penny=0.01
+nickle=0.05
+dime=0.1
+quarter=0.25
 
-def wraps_needed(**kw):
-    for color, weight in kw.items():
-        result = ((float(raw_input("weight: ")) * coins[weight]) / wraps[color])
-        print wraps_needed
-        
+change = float(raw_input())
+
+quarters_needed = change / quarter
+print "Quarters:", int(quarters_needed)
+
+change - (int(quarters_needed) * quarter)
+
+rest_fara_quarters = change - (int(quarters_needed) * quarter)
+print "Dimes:", int(rest_fara_quarters / dime)
+
+rest_fara_quarters_dimes = rest_fara_quarters - (int(rest_fara_quarters / dime) * dime)
+print "Nickle:", int( rest_fara_quarters_dimes / nickle)
+
+rest_fara_quarters_dimes_nickle = rest_fara_quarters_dimes - (int(rest_fara_quarters_dimes / nickle) * nickle)
+#print "Penny:", int(rest_fara_quarters_dimes_nickle / penny)
+
+print int(rest_fara_quarters_dimes_nickle / penny)
