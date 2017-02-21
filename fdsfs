@@ -17,13 +17,7 @@ def program_change (rest):
     prin "Penny:", rest_fara_quarters_dimes_nickle / penny
     return rest
     while len(rest) > 0:
-        print "Quarters:", int(quarters_needed)
-        print "Dimes:", int(rest_fara_quarters / dime)
-        print "Nickle:", int( rest_fara_quarters_dimes / nickle)
-        print "Penny:", rest_fara_quarters_dimes_nickle / penny
-    else:
-        print "type the price"
-
+        
 
 change_needed = raw_input()
 program_change(change_needed)
