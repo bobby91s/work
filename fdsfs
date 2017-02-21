@@ -1,0 +1,29 @@
+from decimal import Decimal
+penny=Decimal ('0.01')
+nickle=Decimal ('0.05')
+dime=Decimal ('0.1')
+quarter=Decimal ('0.25')
+
+def program_change (rest):
+    change = Decimal(raw_input())
+    quarters_needed = change / quarter
+    print "Quarters:", int(quarters_needed)
+    change - (int(quarters_needed) * quarter)
+    rest_fara_quarters = change - (int(quarters_needed) * quarter)
+    print "Dimes:", int(rest_fara_quarters / dime)
+    rest_fara_quarters_dimes = rest_fara_quarters - (int(rest_fara_quarters / dime) * dime)
+    print "Nickle:", int( rest_fara_quarters_dimes / nickle)
+    rest_fara_quarters_dimes_nickle = rest_fara_quarters_dimes - (int(rest_fara_quarters_dimes / nickle) * nickle)
+    prin "Penny:", rest_fara_quarters_dimes_nickle / penny
+    return rest
+    while len(rest) > 0:
+        print "Quarters:", int(quarters_needed)
+        print "Dimes:", int(rest_fara_quarters / dime)
+        print "Nickle:", int( rest_fara_quarters_dimes / nickle)
+        print "Penny:", rest_fara_quarters_dimes_nickle / penny
+    else:
+        print "type the price"
+
+
+change_needed = raw_input()
+program_change(change_needed)
