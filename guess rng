@@ -1,0 +1,29 @@
+from random import randint
+number = randint(1,100)
+print number
+print "Hello :)"
+print 'Welcome to Guess the Number'
+print 'We will generate a number from 1 to 100 and you will have to guess the number'
+print 'The game ends when you guessed correctly'
+print 'Good luck!'
+
+
+def guessing_game(guess):
+    #import pdb; pdb.set_trace()
+    tries = 0
+    while guess != number:
+        if guess > number:
+            tries +=1
+            print 'Number of tries: ', tries
+            print "The right answer is a smaller number"
+            print "Try again!"
+            break
+        else:
+            print "The right answer is a bigger number"
+            print "Try again!"
+    if guess == number:
+        print "Good job!"
+
+while True:
+    player_guess = int(raw_input())
+    guessing_game(player_guess)
