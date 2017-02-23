@@ -9,18 +9,18 @@ print 'Good luck!'
 
 
 def guessing_game(guess):
-    #import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
     tries = 0
-    while guess != number:
+    if guess != number:
         if guess > number:
-            tries +=1
+            tries = tries +1
             print 'Number of tries: ', tries
             print "The right answer is a smaller number"
             print "Try again!"
-            break
         else:
             print "The right answer is a bigger number"
             print "Try again!"
+        return tries
     if guess == number:
         print "Good job!"
 
