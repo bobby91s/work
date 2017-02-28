@@ -1,0 +1,57 @@
+""" Create a program that simulates the hangman game; set a number of tries
+and if the user guesses then add the letter to the blanks
+
+How to: 
+
+- create a variable with some words, then let the program randomly
+choose one for the game
+- after the word has been chosen make the program print the word, with ' _ ' instead of the letters in the word
+- create a new list with the given letters
+- while tries > 0:
+    - ask the player to input a word and iterate through the new list to see if the 
+    letter can be found, if not, tries minus 1, else print the letter instead of the ' _ ' symbol
+- if tries = 0 then print Game over, and print out the missing letters
+- if the player manages to guess out the word, print out 'Good Job, you won!' """
+
+import random
+words = ['blue', 'dog', 'england', 'house', 'fibonacci', 'dermatologist']
+theWord = random.choice(words)
+tries = 5
+
+
+letter_list = [letter for letter in theWord]
+print letter_list
+
+for letters in letter_list:
+    guessMe =[]
+    guessMe.append('_ ')
+    for symbol in guessMe:
+        print symbol,
+
+
+
+#import pdb; pdb.set_trace()
+
+while tries > 0:
+    print "\nType a letter:\n"
+    guess = raw_input()
+    if len(guess) > 1:
+        print 'Only one letter at a time please'
+  
+
+'''
+while tries >0:
+    print "\nType a letter and let's what happens:\n"
+    guess = str(raw_input())
+    for guesses in letter_list:
+        if guesses == letter:
+            guessMe[guesses] = guess
+            print 'good'
+        else:
+            print "Sorry, wrong guess, try again"
+'''
+
+
+
+    #newGuessMe = [guess if guess == letter for guess in guessMe]
+
