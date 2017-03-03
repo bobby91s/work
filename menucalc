@@ -1,0 +1,35 @@
+class Menu():
+    def __init__(self, intNr, food, price):
+        self.intNR = intNr
+        self.food = food
+        self.price = price
+
+    def menuTable(self):
+        return '{}.{} - ${}'.format(self.intNR, self.food, self.price)
+
+
+x1 = Menu(1, 'Chicken Strips', 3.50)
+x2 = Menu(2, 'French Fries', 2.50)
+x3 = Menu(3, 'Hamburger', 4.00)
+x4 = Menu(4, 'Hotdog', 3.50)
+x5 = Menu(5, 'Large Drink', 1.75)
+x6 = Menu(6, 'Medium Drink', 1.50)
+x7 = Menu(7, 'Milk Shake', 2.25)
+x8 = Menu(8, 'Salad', 3.75)
+x9 = Menu(9, 'Small Drink', 1.25)
+
+print x1.menuTable()
+print x2.menuTable()
+print x3.menuTable()
+print x4.menuTable()
+print x5.menuTable()
+print x6.menuTable()
+print x7.menuTable()
+print x8.menuTable()
+print x9.menuTable()
+print "\nHere is our menu, just type in the index number of the products you would like \n" \
+      "to buy, without leaving any spaces and we will tell you what the total is :)\n"
+
+order = int(raw_input("They the product indexes here:\n")
+
+http://stackoverflow.com/questions/29803390/how-to-get-a-list-of-numbers-as-input-and-calculate-the-sum/29803483
