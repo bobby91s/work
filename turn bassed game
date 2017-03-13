@@ -1,0 +1,43 @@
+import webbrowser
+from random import randint
+import random
+
+# infoAnswer = raw_input("Would you like more info? y/n\n")
+# if infoAnswer == 'y':
+#     webbrowser.open('http://bulbapedia.bulbagarden.net/wiki/Charmander_(Pok%C3%A9mon)')
+
+hpCharm = 100
+hpBulb = 100
+npc = range(1,4)
+
+low = randint(8, 15)
+high = randint(10, 25)
+heal = randint(20, 40)
+
+
+while hpBulb > 0 and hpCharm > 0:
+    turn = random.randint(1, 2)
+    if turn == 1:
+        choice = raw_input('What would you like to do?:\n')
+        if choice == '1':
+            print 'Charm used scratch and dealt', low, 'damage. bulb has', (hpBulb - low), 'health left'
+            hpBulb = hpBulb - low
+        elif choice == '2':
+            print 'Charm used ember and dealt', high, 'damage. Bulb has', hpBulb - high, 'health left'
+            hpBulb = hpBulb - high
+        elif choice == '3':
+            print 'Charm used recover and healer', heal, 'damage. Charm now has', hpCharm + heal, 'health left'
+            hpCharm = hpCharm + heal
+        else:
+            print "That's not a valid option, try again"
+    if turn == 2
+        npcChoice = random.choice(npc)
+        if npcChoice == '1':
+            print 'bulb used tackle and dealt', low, 'damage. Charm has', (hpCharm - low), 'health left'
+            hpCharm = hpCharm - low
+        if npcChoice == '2':
+            print 'bulb used rock slide and dealt', high, 'damage. Charm has', hpCharm - high, 'health left'
+            hpCharm = hpCharm - high
+        if npcChoice == '3':
+            print 'Bulb used recover and healer', heal, 'damage. Bulb now has', hpBulb + heal, 'health left'
+            hpBulb = hpBulb + heal
