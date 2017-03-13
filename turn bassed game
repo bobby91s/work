@@ -42,4 +42,4 @@ while hpBulb > 0 and hpCharm > 0:
             print 'Bulb used recover and healer', heal, 'damage. Bulb now has', hpBulb + heal, 'health left'
             hpBulb = hpBulb + heal
             
-https://www.google.ro/search?client=ubuntu&channel=fs&q=python+turn+bassed+game&ie=utf-8&oe=utf-8&gws_rd=cr&ei=iKfGWOTdJ4iBgAaPoZqwDQ#channel=fs&q=python+turn+based+game&*
+
