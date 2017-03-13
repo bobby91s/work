@@ -1,0 +1,38 @@
+'''
+number = range (1, 1001)
+for x in number, len(x) >= 2
+prime if x% 2 == 0
+
+'''
+
+firstList = []
+secondList = []
+thirdList = []
+fourthList = []
+
+number = 1001
+for num in range(number):
+	if num >= 10:
+		prime = True
+		for i in range(2,num):
+			if (num%i) == 0:
+				prime = False
+		if prime:
+			firstList.append(num)
+
+# print firstList
+
+for x in firstList:
+	if not '7' in str(x):
+		secondList.append(x)
+
+for x in secondList:
+	if not '1' in str(x):
+		thirdList.append(x)
+
+
+for num in thirdList:
+	if sum(map(int,list(str(num)))) <= 10:
+		fourthList.append(num)
+
+print fourthList
