@@ -1,0 +1,49 @@
+import random
+
+deck = range(1,11)
+card1 = random.choice(deck)
+card2 = random.choice(deck)
+
+
+
+def play21(first, second):
+    rounds = 5
+    score = 100
+    # playerHand = str(first) + ' ' + str(second)
+    # print playerHand, 'cards drawn'
+    # handTotal = first + second
+    # print 'Hand total = ', handTotal
+    while rounds >0:
+        playerHand = str(first) + ' ' + str(second)
+        print playerHand, 'cards drawn'
+        handTotal = first + second
+        print 'Hand total = ', handTotal
+        draw = random.randint(1, 10)
+        turn = raw_input('Draw again? y/n\n')
+        if turn == 'y':
+            print 'you drew', draw
+            print 'new total is', handTotal + draw
+            handTotal = handTotal + draw
+            if handTotal > 21:
+                score = score - 21
+                print 'Your score: ', score
+                rounds -= 1
+                print 'Rounds left: ',rounds
+                
+                print newHand
+            if handTotal == 21:
+                print 'BlackJack!'
+                print 'Your score: ', score
+                rounds -= 1
+                print 'Rounds left: ',rounds
+                print newHand
+            rounds -= 1
+        else:
+            score = score - (21 -handTotal)
+            print 'Your score: ', score
+            rounds -= 1
+            print 'Rounds left: ',rounds
+        if round == 0:
+            print 'Game over, your sore is:', score
+
+play21(card1, card2)
