@@ -1,49 +1,45 @@
 import random
 
-deck = range(1,11)
+deck = [1,2,3,4,5,6,7,8,9,10,10,10,10]
+
 card1 = random.choice(deck)
 card2 = random.choice(deck)
+draw = random.choice(deck)
 
+score = 100
+rounds = 0
+handTotal = card1 + card2
+openingHand = [str(card1), str(card2)]
+# print 'Your hand:', openingHand
+# print 'Total points:', handTotal
 
-
-def play21(first, second):
-    rounds = 5
-    score = 100
-    # playerHand = str(first) + ' ' + str(second)
-    # print playerHand, 'cards drawn'
-    # handTotal = first + second
-    # print 'Hand total = ', handTotal
-    while rounds >0:
-        playerHand = str(first) + ' ' + str(second)
-        print playerHand, 'cards drawn'
-        handTotal = first + second
-        print 'Hand total = ', handTotal
-        draw = random.randint(1, 10)
-        turn = raw_input('Draw again? y/n\n')
-        if turn == 'y':
-            print 'you drew', draw
-            print 'new total is', handTotal + draw
-            handTotal = handTotal + draw
-            if handTotal > 21:
-                score = score - 21
-                print 'Your score: ', score
-                rounds -= 1
-                print 'Rounds left: ',rounds
-                
-                print newHand
-            if handTotal == 21:
-                print 'BlackJack!'
-                print 'Your score: ', score
-                rounds -= 1
-                print 'Rounds left: ',rounds
-                print newHand
-            rounds -= 1
+while rounds <= 5:
+    print 'Your hand:', openingHand
+    print 'Total points:', handTotal
+    draw = random.choice(deck)
+    choice = raw_input("Draw? y/n\n")
+    if choice == 'y':
+        print 'you drew: ', draw
+        openingHand.append(draw)
+        handTotal = handTotal + draw
+        print 'new hand: ', handTotal
+        if handTotal < 21:
+            print choice
+        elif handTotal > 21:
+            rounds += 1
+            score = score - 21
+            print 'score ', score, 'round ', rounds
         else:
-            score = score - (21 -handTotal)
-            print 'Your score: ', score
-            rounds -= 1
-            print 'Rounds left: ',rounds
-        if round == 0:
-            print 'Game over, your sore is:', score
-
-play21(card1, card2)
+            rounds += 1
+            print 'Blackjack!'
+            print 'score ', score
+            print 'round: ', rounds
+    else:
+        score = score - (21 - handTotal)
+        print 'score: ', score
+        rounds += 1
+        print 'round: ', rounds
+    # for x in openingHand:
+    #     openingHand.remove(x)
+    # handTotal = card1 + card2
+    # openingHand = [str(card1), str(card2)]
