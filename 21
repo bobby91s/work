@@ -29,17 +29,16 @@ while rounds <= 5:
             rounds += 1
             score = score - 21
             print 'score ', score, 'round ', rounds
+            break
         else:
             rounds += 1
             print 'Blackjack!'
             print 'score ', score
             print 'round: ', rounds
+            break
     else:
         score = score - (21 - handTotal)
         print 'score: ', score
         rounds += 1
         print 'round: ', rounds
-    # for x in openingHand:
-    #     openingHand.remove(x)
-    # handTotal = card1 + card2
-    # openingHand = [str(card1), str(card2)]
+    openingHand = [str(card1), str(card2)]
