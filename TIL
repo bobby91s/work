@@ -1,18 +1,27 @@
+#!/usr/bin/env python
+
 import json
 import urllib2
-
+# ximport pdb; pdb.set_trace()
 url = "https://www.reddit.com/r/todayilearned/new/.json"
 data = json.load(urllib2.urlopen(url))
 
-# import pdb; pdb.set_trace()
-# print data
-
 newFact = data['data']['children'][0]['data']['title']
 newFactLink = data['data']['children'][0]['data']['url']
-
-print newFact
-print newFactLink
+newFactPropper = newFact.replace('TIL', '').replace('that', '').replace('That', '').capitalize()
+# newFactPropper.capitalize()
+print newFactPropper
 
 with open ('TIL.txt', 'a+') as outfile:
-    json.dump(newFact, outfile), '\n'
-    json.dump(newFactLink, outfile), '\n'
+    json.dump(newFactPropper, outfile)
+    outfile.write('\n')
+    outfile.write('source link: ')
+    json.dump(newFactLink, outfile)
+    outfile.write('\n')
+
+import subprocess
+
+# import pdb;pdb.set_trace()
+msg = str(newFactPropper)
+command = 'twitter -ebogdansilghi@hotmail.com set %s' % msg
+subprocess.call(command, shell = True)
