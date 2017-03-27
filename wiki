@@ -1,0 +1,33 @@
+import sys
+import webbrowser
+import json
+import urllib2
+# import pdb; pdb.set_trace()
+url = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=10&format=json"
+data = json.load(urllib2.urlopen(url))
+baseLink = 'https://en.wikipedia.org/wiki/'
+
+
+def browseThis(thisArcticle):
+    linkTitle = thisArcticle.replace(' ', '_')
+    linkPropper = baseLink + linkTitle
+    print thisArcticle
+    x = raw_input('y/n \n')
+    if x =='y':
+        webbrowser.open(linkPropper)
+
+import pdb; pdb.set_trace()
+def newArticle(newlink):
+    again = raw_input('how about this? y/n \n')
+    if again =='y':
+        newlink = ['query']['random'][0]['title']
+        print newlink
+        linkTitle2 = newlink.replace(' ', '_')
+        linkPropper2 = baseLink + linkTitle2
+        
+
+articleTitle = data['query']['random'][0]['title']
+articleTitle2 = data['query']['random'][0]['title']
+
+browseThis(articleTitle)
+newArticle(articleTitle2)
