@@ -1,0 +1,47 @@
+#!/home/tibi/tools/bin/python
+
+
+import requests
+import os
+
+
+def resolve(url):
+    import pdb;pdb.set_trace()
+    url = url.replace('http://', 'https://')
+    print "Fixing", url
+    resp = requests.head(url)
+    res = resp.headers['Location']
+    return res
+
+
+def fix(fname):
+    # import pdb;pdb.set_trace()
+    with open(fname, 'a+') as f:
+        link=[]
+        lines = []
+        for line in f.readlines():
+            if line.startswith('text='):
+                links = line.split('=')[1]
+                link = links.split()
+                for x in link:
+                    line  = "text=" + resolve(x) + "\n"
+                #links.append(line)
+                # print link
+                #print links
+                lines.append(lines)
+        f.seek(0)
+        f.truncate()
+        content = "".join(lines)
+        # print content
+        f.write(content)
+
+
+def main():
+    for fname in os.listdir('.'):
+        if 'crawljob' not in fname:
+            continue
+        fix(fname)
+
+
+if __name__ == "__main__":
+    main()
