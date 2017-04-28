@@ -1,0 +1,23 @@
+-function1 that asks and print the head in a doc.
+
+-function2:
+	-opens the file
+	-makes an empty list
+	-reads all the lines
+	-searches for the lines that start with 'text='
+	-new variable link = the lines striped of 'text='
+		this is the line with the 2 links, added into 			one string
+	-we split the 2 links and add them into a list called 
+	ilink
+	-once splitted we need to iterate through the list 		with a 'for' loop so that we can have each element 		independently
+	-both links are now 2 strings in a list called 'ilink'
+
+
+	-appeal to the function1 to fix the links
+	-all lines are joined, and the content is reformed
+	-command that writes the content in the file
+	
+-funtion3:
+	-searches in the directory to find the file with 	 crawljob in it's name and appeals to funtion2
+
+-statement that appeals to function3
