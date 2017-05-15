@@ -6,12 +6,12 @@ import os
 
 
 def resolve(urls):
-    for url in urls:
-        url = url.replace('http://', 'https://')
-        print "Fixing", url
-        resp = requests.head(url)
-        res = resp.headers['Location']
-        return res
+    # for url in urls:
+    url = urls.replace('http://', 'https://')
+    print "Fixing", url
+    resp = requests.head(url)
+    res = resp.headers['Location']
+    return res
 
 def fix(fname):
     with open(fname, 'a+') as f:
@@ -20,7 +20,8 @@ def fix(fname):
             if line.startswith('text='):
                 links = line.split('=')[1]
                 links = links.split()
-                line = 'text = ' + resolve(links) + '\n'
+                for x in links:
+                    line = 'text = ' + resolve(x) + '\n'
             lines.append(line)
         f.seek(0)
         f.truncate()
