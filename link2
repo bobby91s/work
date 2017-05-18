@@ -1,12 +1,9 @@
 #!/home/tibi/tools/bin/python
-
-
 import requests
 import os
 
 
 def resolve(url):
-    # for url in urls:
     url = url.replace('http://', 'https://')
     print "Fixing", url
     resp = requests.head(url)
@@ -14,22 +11,27 @@ def resolve(url):
     return res
 
 def fix(fname):
-    # import pdb; pdb.set_trace()
+    """ Fixes the links from the lines that start with text= """
+
     with open(fname, 'a+') as f:
         lines = []
         fixed = []
         for line in f.readlines():
             if line.startswith('text='):
-                links = line.split('=')[1]
-                link = links.split()
-                for url in link:
-                    resolved_link = resolve(url)
-                    fixed.append(url)
+                # sol 1
+                links = line.split('=')[1].split()
+                for url in links:
+                    resolved_url = resolve(url)
+                    fixed.append(resolved_url)
                     print ' '.join(fixed)
-                    # print ' '.join(fixed)
                     line = 'text=' + ' '.join(fixed) + '\n'
 
-            lines.append(line)
+                # sol 2
+                fixed += [resolve(url) for url in line.split('=')[1].split()]
+                print ' '.join(fixed)
+                line = 'text=' + ' '.join(fixed) + '\n'
+                # append line to lines
+                lines.append(line)
         f.seek(0)
         f.truncate()
         content = "".join(lines)
