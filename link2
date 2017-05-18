@@ -5,23 +5,30 @@ import requests
 import os
 
 
-def resolve(urls):
+def resolve(url):
     # for url in urls:
-    url = urls.replace('http://', 'https://')
+    url = url.replace('http://', 'https://')
     print "Fixing", url
     resp = requests.head(url)
     res = resp.headers['Location']
     return res
 
 def fix(fname):
+    # import pdb; pdb.set_trace()
     with open(fname, 'a+') as f:
         lines = []
+        fixed = []
         for line in f.readlines():
             if line.startswith('text='):
                 links = line.split('=')[1]
-                links = links.split()
-                for x in links:
-                    line = 'text = ' + resolve(x) + '\n'
+                link = links.split()
+                for url in link:
+                    resolved_link = resolve(url)
+                    fixed.append(url)
+                    print ' '.join(fixed)
+                    # print ' '.join(fixed)
+                    line = 'text=' + ' '.join(fixed) + '\n'
+
             lines.append(line)
         f.seek(0)
         f.truncate()
