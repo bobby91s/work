@@ -1,0 +1,119 @@
+import sys, os
+
+menu_actions = {}
+to_dos = []
+
+# Prints out the main menu and let's you choose the submenu
+def main_menu():
+    os.system('clear')
+
+    print 'Welcome to the To-Do-List Main Menu \n'
+    print 'Please choose the option that you want by typing the index'
+    print '1. View To-Do'
+    print '2. Add To-Do'
+    print '3. Edit To-Do'
+    print '4. Delete To-Do'
+    print '5. Exit'
+
+    choice = raw_input()
+    exec_menu(choice)
+    return
+
+
+#Execute Menu
+def exec_menu(choice):
+    os.system('clear')
+    ch = choice
+    if ch == '':
+        menu_actions['main_menu']()
+    else:
+        try:
+            menu_actions[ch]()
+        except KeyError:
+            print 'Invalid selection, please try again.\n'
+            menu_actions['main_menu']()
+    return
+
+
+#View Menu
+def view_todo():
+    if len(to_dos) == 0:
+        print 'Nothing To Do yet'
+    else:
+        for todo in to_dos:
+            print (to_dos.index(todo)+1), todo
+
+    print '0. Back'
+    choice = raw_input()
+    exec_menu(choice)
+    return
+
+
+#Add Menu
+def add_todo():
+    add = raw_input('Add a To Do to your list: ')
+    to_dos.append(add)
+
+    print '0. Back or 2. Add another one'
+    choice = raw_input()
+    exec_menu(choice)
+    return
+
+
+#Edit Menu
+def edit_todo():
+    for todo in to_dos:
+        print todo
+
+    which = int(raw_input('Choose which To Do you want to edit: '))
+    to_edit = to_dos[which - 1]
+    how = raw_input('Re-write this To Do: ')
+    to_dos.remove(to_edit)
+    to_dos.append(how)
+    to_dos.sort()
+
+    print '0. Back or 3. Edit another one'
+    choice = raw_input()
+    exec_menu(choice)
+    return
+
+
+#Delete Menu
+def del_todo():
+    for todo in to_dos:
+        print todo
+
+    which = int(raw_input('Which To Do would you like to delete? '))
+    to_remove = to_dos[which-1]
+    to_dos.remove(to_remove)
+
+    print '0. Back or 4. Delete another one'
+    choice = raw_input()
+    exec_menu(choice)
+    return
+
+
+#Back to main menu
+def back():
+    menu_actions['main_menu']()
+
+
+#Closing the program
+def quit():
+    sys.exit()
+
+
+#Menu Definitions
+menu_actions = {
+    'main_menu': main_menu,
+    '1' : view_todo,
+    '2' : add_todo,
+    '3' : edit_todo,
+    '4' : del_todo,
+    '5' : exit,
+    '0' : back
+}
+
+
+if __name__ == "__main__":
+    main_menu()
