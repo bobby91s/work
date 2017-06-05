@@ -1,7 +1,7 @@
 import sys, os, string, random
 from collections import OrderedDict
 
-
+the_key = "".join(random.sample(string.ascii_letters,3))
 menu_actions = {}
 to_dos = {}
 done = True
@@ -19,6 +19,7 @@ def main_menu():
     print '3. Edit To-Do'
     print '4. Delete To-Do'
     print '5. Exit'
+    print '\n'
 
     choice = raw_input()
     exec_menu(choice)
@@ -45,7 +46,7 @@ def view_todo():
     if len(to_dos) == 0:
         print 'Nothing To Do yet'
     else:
-        both = raw_input('Would you like to see both done and not done To Do-s? y/n')
+        both = raw_input('Would you like to see both done and not done To Do-s? y/n \n')
         if both == 'y':
             # this is how you add an index nr to each added element that is printed
             ordered_to_dos = OrderedDict(sorted(to_dos.items(), key = lambda t: t[0]))
@@ -54,16 +55,19 @@ def view_todo():
                 print index, things_to_do['title']
 
         else:
-            which = raw_input('View the -done- ones or the -not done- one?')
+            which = raw_input('View the -done- ones or the -not done- one? \n')
             if which == 'done':
                 ordered_to_dos = OrderedDict(sorted(to_dos.items(), key = lambda t: t[0]))
-                for todo in ordered_to_dos:
+                for key, todo in ordered_to_dos.items():
+                    if todo['done'] != True:
+                        print 'No task has been completed yet'  # still needs a small fix
                     if todo['done'] == True:
                         print todo['title']
 
+
             else:
                 ordered_to_dos = OrderedDict(sorted(to_dos.items(), key = lambda t: t[0]))
-                for todo in ordered_to_dos:
+                for key, todo in ordered_to_dos.items():
                     if todo['done'] == False:
                         print todo['title']
 
@@ -89,21 +93,23 @@ def add_todo():
 
 
 # # Edit Menu ----------- needs work
-# def edit_todo():
-#     for todo in to_dos:
-#         print todo
-#
-#     which = int(raw_input('Choose which To Do you want to edit: '))
-#     ordered_to_dos = OrderedDict(sorted(to_dos.items(), key = lambda t: t[0]))
-#     for k,v  in ordered_to_dos.items():
-#         index = to_dos.keys().index(k) + 1
-#         if which == index:
-#
-#
-#     print '0. Back or 3. Edit another one'
-#     choice = raw_input()
-#     exec_menu(choice)
-#     return
+def edit_todo():
+    ordered_to_dos = OrderedDict(sorted(to_dos.items(), key = lambda t: t[0]))
+    for key, things_to_do in ordered_to_dos.items():
+        index = ordered_to_dos.keys().index(key) + 1
+        print index, things_to_do['title']
+
+    this_one = int(raw_input('Choose which To Do you want to edit: \n'))
+    if this_one == index:
+        for k,v in ordered_to_dos.items():
+            change_this = ordered_to_dos.keys().index(k)[index -1]
+
+
+
+    print '0. Back or 3. Edit another one'
+    choice = raw_input()
+    exec_menu(choice)
+    return
 
 
 #Delete Menu  ------------ needs work
@@ -136,7 +142,7 @@ menu_actions = {
     'main_menu': main_menu,
     '1' : view_todo,
     '2' : add_todo,
-    # '3' : edit_todo,
+    '3' : edit_todo,
     # '4' : del_todo,
     '5' : exit,
     '0' : back
