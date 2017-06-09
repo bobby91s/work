@@ -6,19 +6,18 @@ from collections import defaultdict
 
 
 to_dos = {}
-search_index = {}
 search_index = defaultdict(list)
 
 
-def main_menu(menu_actions):
+def main_menu():
     # Prints out the main menu and let's you choose the submenu
     os.system('clear')
 
     print 'Welcome to the To-Do-List Main Menu \n'
     print 'Please choose the option that you want by typing the index'
 
-    for x in range(1, 7):
-        print x, menu_actions[str(x)]['title']
+    for i, menu in enumerate(menu_actions):
+        print i, menu['title']
     print '\n'
 
     return
@@ -77,19 +76,18 @@ def edit_todo():
     for i, (k, v) in enumerate(to_dos.iteritems()):
         print i+1, v['title']
 
-    this_one = int(raw_input('Choose which To Do you want to edit: \n'))
-    for change_this, values in to_dos.items():
-        change_this = to_dos.keys()[this_one - 1]
-        change_this_title = to_dos[change_this]['title']
-        if not to_dos[change_this]['done']:
-            to_dos[change_this]['done'] = True
-            print change_this_title, 'is now done'
-            break
+    this_one = raw_input('Choose which To Do you want to edit: \n')
+    edit_this = to_dos.keys()[this_one - 1]
+    edit_this_title = to_dos[edit_this]['title']
+    if not to_dos[edit_this]['done']:
+        to_dos[edit_this]['done'] = True
+        print edit_this_title, 'is now done'
+        # break
 
-        elif to_dos[change_this]['done']:
-            to_dos[change_this]['done'] = False
-            print change_this_title, 'is now not done'
-            break
+    elif to_dos[edit_this]['done']:
+        to_dos[edit_this]['done'] = False
+        print edit_this_title, 'is now not done'
+        # break
 
     print '\n0. Back or 3. Edit another one'
     return
@@ -110,15 +108,13 @@ def del_todo():
 
     which = int(raw_input('Which To Do would you like to delete? \n'))
 
-    for remove_this, values in to_dos.items():
-        remove_this = to_dos.keys()[which - 1]
-        remove_this_title = to_dos[remove_this]['title']
-        # print remove_this, remove_this_title
-        if remove_this in to_dos:
-            del to_dos[remove_this]
-            print remove_this_title, 'has been deleted from your To Do List'
-            unindex(remove_this)
-            break
+    del_this = to_dos.keys()[which - 1]
+    del_this_title = to_dos[del_this]['title']
+    if del_this in to_dos:
+        del to_dos[del_this]
+        print del_this_title, 'has been deleted from your To Do List'
+        unindex(del_this)
+        # break
 
     print '\n0. Back or 4. Delete another one'
     return
@@ -143,7 +139,7 @@ def search():
 
 def back():
     # Back to main menu
-    menu_actions['main_menu'](menu_actions)
+    main_menu()
 
 
 def quit():
@@ -152,20 +148,27 @@ def quit():
 
 
 if __name__ == "__main__":
-    menu_actions = {
+    menu_actions = [
         # Menu Definitions - each input coresponds to a different function
-        'main_menu': main_menu,
-        '1': {'title': "View To-Do", 'func': view_todo},
-        '2': {'title': "Add To-Do", 'func': add_todo},
-        '3': {'title': "Edit To-Do", 'func': edit_todo},
-        '4': {'title': "Delete To-Do", 'func': del_todo},
-        '5': {'title': "Search for To-Do", 'func': search},
-        '6': {'title': "Exit", 'func': exit},
-        '0': {'title': "Back", 'func': back}
-        }
+        # {'title': "Back", 'func': back},
+        {'title': "View To-Do", 'func': view_todo},
+        {'title': "Add To-Do", 'func': add_todo},
+        {'title': "Edit To-Do", 'func': edit_todo},
+        {'title': "Delete To-Do", 'func': del_todo},
+        {'title': "Search for To-Do", 'func': search},
+        {'title': "Exit", 'func': exit},
+        {'title': "Back", 'func': back}
+        ]
 
-    main_menu(menu_actions)
+    main_menu()
     while True:
-        choice = raw_input('Select your option: ')
+        while True:
+            choice = raw_input('Select your option: ')
+            try:
+                choice = int(choice)
+                break
+            except:
+                pass
+
         os.system('clear')
         menu_actions[choice]['func']()
