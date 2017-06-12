@@ -6,6 +6,7 @@ from collections import defaultdict
 
 
 to_dos = {}
+search_index = {}
 search_index = defaultdict(list)
 
 
@@ -17,7 +18,7 @@ def main_menu():
     print 'Please choose the option that you want by typing the index'
 
     for i, menu in enumerate(menu_actions):
-        print i, menu['title']
+        print i+1, menu['title']
     print '\n'
 
     return
@@ -50,8 +51,7 @@ def view_todo():
                     if not todo['done']:
                         print i+1, todo['title']
 
-    # for x in range(0):
-    print '\n0. Back'
+    print '\n6. Back'
     return
 
 
@@ -66,7 +66,7 @@ def add_todo():
         search_index[word].append(the_key)
 
     print "You've added", add, "to your To Do List"
-    print '\n0. Back or 2. Add another one'
+    print '\n6. Back or 2. Add another one'
     return
 
 
@@ -76,8 +76,8 @@ def edit_todo():
     for i, (k, v) in enumerate(to_dos.iteritems()):
         print i+1, v['title']
 
-    this_one = raw_input('Choose which To Do you want to edit: \n')
-    edit_this = to_dos.keys()[this_one - 1]
+    which = int(raw_input('Choose which To Do you want to edit: \n'))
+    edit_this = to_dos.keys()[which-1]
     edit_this_title = to_dos[edit_this]['title']
     if not to_dos[edit_this]['done']:
         to_dos[edit_this]['done'] = True
@@ -89,7 +89,7 @@ def edit_todo():
         print edit_this_title, 'is now not done'
         # break
 
-    print '\n0. Back or 3. Edit another one'
+    print '\n6. Back or 3. Edit another one'
     return
 
 
@@ -116,7 +116,7 @@ def del_todo():
         unindex(del_this)
         # break
 
-    print '\n0. Back or 4. Delete another one'
+    print '\n6. Back or 4. Delete another one'
     return
 
 
@@ -125,15 +125,15 @@ def search():
     have the same key-word in them and prints them out """
     search_this = raw_input('Type a key-word and we will show you '
                             + 'all To-Dos with that word in them: \n')
-    print "Your search word is", "'", search_this, "'"
-    + ", here are the results: "
+    print "Your search word is", "'", search_this, "'" \
+        ", here are the results: "
 
     uids = search_index.get(search_this, [])
     for uid in uids:
         if uid in to_dos.keys():
             print to_dos[uid]['title']
 
-    print '\n0. Back or 5. Search for another one'
+    print '\n6. Back or 5. Search for another one'
     return
 
 
@@ -150,14 +150,13 @@ def quit():
 if __name__ == "__main__":
     menu_actions = [
         # Menu Definitions - each input coresponds to a different function
-        # {'title': "Back", 'func': back},
         {'title': "View To-Do", 'func': view_todo},
         {'title': "Add To-Do", 'func': add_todo},
         {'title': "Edit To-Do", 'func': edit_todo},
         {'title': "Delete To-Do", 'func': del_todo},
         {'title': "Search for To-Do", 'func': search},
-        {'title': "Exit", 'func': exit},
-        {'title': "Back", 'func': back}
+        {'title': "Back", 'func': back},
+        {'title': "Exit", 'func': exit}
         ]
 
     main_menu()
@@ -165,7 +164,7 @@ if __name__ == "__main__":
         while True:
             choice = raw_input('Select your option: ')
             try:
-                choice = int(choice)
+                choice = int(choice)-1
                 break
             except:
                 pass
