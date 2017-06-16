@@ -2,6 +2,8 @@ import sys
 import os
 import string
 import random
+import marshal
+from datetime import datetime
 from collections import defaultdict
 
 
@@ -20,13 +22,24 @@ def main_menu():
     for i, menu in enumerate(menu_actions):
         print i+1, menu['title']
     print '\n'
-
     return
+
+
+def file_to_dict():
+    with open('todo.txt', 'rb+') as myFile:
+        for todo in myFile:
+            dict_elements = marshal.loads(todo)
+            to_dos = dict_elements
+            # print todo
+            # print dict_elements
+            print to_dos
 
 
 def view_todo():
     """ View Menu - shows all the tasks and can filter to
     see either the done or not done ones """
+
+    file_to_dict()
 
     if len(to_dos) == 0:
         print 'Nothing To Do yet'
@@ -65,8 +78,25 @@ def add_todo():
     for word in split_title:
         search_index[word].append(the_key)
 
+    with open('todo.txt', 'ab+') as myFile:
+#this works !!!   make as library, so it can be imported   Data Header la inceput, date, and bits, No new line 
+        for todo in to_dos.items():
+            for k, v in to_dos.items():
+                if the_key in todo:
+                    todo = marshal.dumps(todo)
+                    size = len(todo)
+                    now = datetime.now().strftime('%Y-%d-%m %H:%M') # use unix timestamp
+                    todo = todo + ' ' + str(size) + ' bits' + ' ' +str(now)
+                    myFile.write(todo + '\n')
+                    break
+
+    print to_dos[the_key]['title']
+
+    # dict_to_file()
+
     print "You've added", add, "to your To Do List"
     print '\n6. Back or 2. Add another one'
+
     return
 
 
@@ -77,17 +107,19 @@ def edit_todo():
         print i+1, v['title']
 
     which = int(raw_input('Choose which To Do you want to edit: \n'))
-    edit_this = to_dos.keys()[which-1]
-    edit_this_title = to_dos[edit_this]['title']
-    if not to_dos[edit_this]['done']:
-        to_dos[edit_this]['done'] = True
-        print edit_this_title, 'is now done'
-        # break
 
-    elif to_dos[edit_this]['done']:
-        to_dos[edit_this]['done'] = False
-        print edit_this_title, 'is now not done'
-        # break
+    index = to_dos.keys()[which-1]
+    todo = to_dos[index]
+    title = todo['title']
+    print todo
+
+    if not to_dos[index]['done']:
+        todo['done'] = True
+        print title, 'is now done'
+
+    elif to_dos[index]['done']:
+        todo['done'] = False
+        print title, 'is now not done'
 
     print '\n6. Back or 3. Edit another one'
     return
@@ -100,6 +132,9 @@ def unindex(to_dos_id):
         search_index[word] = [x for x in uids if x != to_dos_id]
 
 
+# def del_from_file():
+
+
 def del_todo():
     """ Delete Menu - deletes the task you choose
     and calls unindex to clean up everything """
@@ -108,13 +143,16 @@ def del_todo():
 
     which = int(raw_input('Which To Do would you like to delete? \n'))
 
-    del_this = to_dos.keys()[which - 1]
-    del_this_title = to_dos[del_this]['title']
-    if del_this in to_dos:
-        del to_dos[del_this]
-        print del_this_title, 'has been deleted from your To Do List'
-        unindex(del_this)
-        # break
+    index = to_dos.keys()[which - 1]
+    todo = to_dos[index]
+    title = todo['title']
+
+
+    if index in to_dos:
+        del to_dos[index]
+        print title, 'has been deleted from your To Do List'
+        unindex(index)
+
 
     print '\n6. Back or 4. Delete another one'
     return
