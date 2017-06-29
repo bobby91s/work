@@ -3,8 +3,11 @@ import os
 import string
 import random
 import marshal
+import add_binary
+import file_to_dict
 from datetime import datetime
 from collections import defaultdict
+
 
 
 to_dos = {}
@@ -26,18 +29,27 @@ def main_menu():
 
 
 def file_to_dict():
-    with open('todo.txt', 'rb+') as myFile:
-        for todo in myFile:
-            dict_elements = marshal.loads(todo)
-            to_dos = dict_elements
-            # print todo
-            # print dict_elements
-            print to_dos
+    # import pdb; pdb.set_trace()
+    f = open('todo.txt', 'r+b')
+    for line in f:
+        no_header = line.replace(line[:24], "")
+        loaded = marshal.loads(no_header)
+        loaded = list(loaded)
+        key = loaded[0]
+        value = loaded[1]
+        to_dos[key] = value
+
+        split_title = to_dos[key]['title'].split()
+        for word in split_title:
+            search_index[word].append(key)
 
 
 def view_todo():
     """ View Menu - shows all the tasks and can filter to
     see either the done or not done ones """
+
+    # file_to_dict.file_to_dict()
+    # print to_dos
 
     file_to_dict()
 
@@ -78,21 +90,23 @@ def add_todo():
     for word in split_title:
         search_index[word].append(the_key)
 
+    # add_binary.add_bin(to_dos)   #make this work after figuring out everything else!!!!!!!!!!!!
+
     with open('todo.txt', 'ab+') as myFile:
-#this works !!!   make as library, so it can be imported   Data Header la inceput, date, and bits, No new line 
+#this works !!!   make as library, so it can be imported   Data Header la inceput, date, and bits, No new line
         for todo in to_dos.items():
             for k, v in to_dos.items():
                 if the_key in todo:
                     todo = marshal.dumps(todo)
                     size = len(todo)
                     now = datetime.now().strftime('%Y-%d-%m %H:%M') # use unix timestamp
-                    todo = todo + ' ' + str(size) + ' bits' + ' ' +str(now)
-                    myFile.write(todo + '\n')
+                    header = str(size) + ' bits' + ' ' +str(now)
+                    myFile.write(header + todo + '\n')
                     break
 
     print to_dos[the_key]['title']
 
-    # dict_to_file()
+
 
     print "You've added", add, "to your To Do List"
     print '\n6. Back or 2. Add another one'
