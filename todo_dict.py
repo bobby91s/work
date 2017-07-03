@@ -4,15 +4,13 @@ import string
 import random
 import marshal
 import add_binary
-import file_to_dict
-from datetime import datetime
 from collections import defaultdict
-
 
 
 to_dos = {}
 search_index = {}
 search_index = defaultdict(list)
+loaded = []
 
 
 def main_menu():
@@ -29,27 +27,32 @@ def main_menu():
 
 
 def file_to_dict():
-    # import pdb; pdb.set_trace()
-    f = open('todo.txt', 'r+b')
-    for line in f:
-        no_header = line.replace(line[:24], "")
-        loaded = marshal.loads(no_header)
-        loaded = list(loaded)
-        key = loaded[0]
-        value = loaded[1]
-        to_dos[key] = value
-
-        split_title = to_dos[key]['title'].split()
-        for word in split_title:
-            search_index[word].append(key)
+    with open('todo.txt', 'r+b') as f:
+        header = f.read(40)
+        bits = int(header[:16])
+        f.seek(40)
+        data = f.read(bits)
+        loaded_data = marshal.loads(data)
+        loaded.append(loaded_data)
+        while True:
+            try:
+                bit = int(f.read(16))
+                bit = int(bit)
+                f.read(24)
+                data = f.read(bit)
+                loaded_data = marshal.loads(data)
+                loaded.append(loaded_data)
+            except ValueError:
+                break
+        for x in loaded:
+            key = x[0]
+            value = x[1]
+            to_dos[key] = value
 
 
 def view_todo():
     """ View Menu - shows all the tasks and can filter to
     see either the done or not done ones """
-
-    # file_to_dict.file_to_dict()
-    # print to_dos
 
     file_to_dict()
 
@@ -90,23 +93,7 @@ def add_todo():
     for word in split_title:
         search_index[word].append(the_key)
 
-    # add_binary.add_bin(to_dos)   #make this work after figuring out everything else!!!!!!!!!!!!
-
-    with open('todo.txt', 'ab+') as myFile:
-#this works !!!   make as library, so it can be imported   Data Header la inceput, date, and bits, No new line
-        for todo in to_dos.items():
-            for k, v in to_dos.items():
-                if the_key in todo:
-                    todo = marshal.dumps(todo)
-                    size = len(todo)
-                    now = datetime.now().strftime('%Y-%d-%m %H:%M') # use unix timestamp
-                    header = str(size) + ' bits' + ' ' +str(now)
-                    myFile.write(header + todo + '\n')
-                    break
-
-    print to_dos[the_key]['title']
-
-
+    add_binary.add_bin(to_dos)
 
     print "You've added", add, "to your To Do List"
     print '\n6. Back or 2. Add another one'
@@ -125,7 +112,6 @@ def edit_todo():
     index = to_dos.keys()[which-1]
     todo = to_dos[index]
     title = todo['title']
-    print todo
 
     if not to_dos[index]['done']:
         todo['done'] = True
@@ -146,9 +132,6 @@ def unindex(to_dos_id):
         search_index[word] = [x for x in uids if x != to_dos_id]
 
 
-# def del_from_file():
-
-
 def del_todo():
     """ Delete Menu - deletes the task you choose
     and calls unindex to clean up everything """
@@ -161,12 +144,10 @@ def del_todo():
     todo = to_dos[index]
     title = todo['title']
 
-
     if index in to_dos:
         del to_dos[index]
         print title, 'has been deleted from your To Do List'
         unindex(index)
-
 
     print '\n6. Back or 4. Delete another one'
     return
