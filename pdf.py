@@ -5,16 +5,17 @@ from subprocess import call
 import urllib
 from bs4 import BeautifulSoup
 
+
 total_links = []
+link_pages = []
+checkers = []
 
 
-r  = requests.get('https://pdf-magazine-download.com/geographical/')
-data = r.text
-soup = BeautifulSoup(data, 'lxml')
-
-for link in soup.find_all('a'):
-    if 'https' in str(link):
-        total_links.append(link.get('href'))
+def get_links(soup):
+    for link in soup.find_all('a'):
+        if 'https' in str(link) and 'page' not in str(link):
+            if 'geographical' not in str(link):
+                total_links.append(link.get('href'))
 
 
 def get_data(total_links):
@@ -34,12 +35,38 @@ def get_data(total_links):
         download_tag = soup.find('p', {'class':'PDFPerFullBlockDownload'})
         x = download_tag.find('a')
         download_link = x.get('href')
+        # print download_link
 
-        print {"title":title, 'info':info, 'image':image_link,
-                        'download_link':download_link}
+
+        
+        with open('collections.txt', 'a+') as outfile:
+            outfile.write(title.encode('utf-8') + '\n' + info.encode('utf-8') +
+                            '\n' + image_link.encode('utf-8') + '\n' +
+                            download_link.encode('utf-8') + '\n' + '\n')
+
+
+r  = requests.get('https://pdf-magazine-download.com/geographical/')
+data = r.text
+soup = BeautifulSoup(data, 'lxml')
+get_links(soup)
+
+
+
+for link in soup.find_all('a'):
+    if 'page' in str(link) and link.get('href') not in link_pages:
+        link_pages.append(link.get('href'))
+
+
+for link in link_pages:
+    req  = requests.get(link)
+    data = req.text
+    soup2 = BeautifulSoup(data, 'lxml')
+    get_links(soup2)
+
+
+for link in total_links:
+    url = requests.get(link)
+    checker = url.headers['Last-Modified']
+    checkers.append(checker)
 
 get_data(total_links)
-"""
-am preluat toate informatiile cerute de pe prima pagina a site-ului, mai trebuie adaugate si celelalte linkuri de pe cele 
-2 pagini si scrierea in fisier cu Last Modified ca si 'semn de carte'
-"""
