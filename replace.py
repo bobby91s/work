@@ -1,5 +1,4 @@
 import os
-import io
 
 """
 Put this code in a .py file in the folder where your html-s are. This app will
@@ -16,10 +15,10 @@ new = ''
 
 for filename in os.listdir(os.getcwd()):
     if '.html' in filename:
-        with io.open(filename, "r", encoding="utf-8") as f:
+        with open(filename, "r", encoding="utf-8") as f:
             newText=f.read().replace(old, new)
 
-        with io.open(filename, "w", encoding="utf-8") as f:
+        with open(filename, "w", encoding="utf-8") as f:
             f.write(newText)
 
 
