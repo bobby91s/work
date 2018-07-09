@@ -1,4 +1,5 @@
 import os
+import codecs
 
 """
 Put this code in a .py file in the folder where your html-s are. This app will
@@ -15,10 +16,10 @@ new = ''
 
 for filename in os.listdir(os.getcwd()):
     if '.html' in filename:
-        with open(filename) as f:
+        with codecs.open(filename, "r", "utf-8") as f:
             newText=f.read().replace(old, new)
 
-        with open(filename, "w") as f:
+        with codecs.open(filename, "w", "utf-8") as f:
             f.write(newText)
 
 
